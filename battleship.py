@@ -77,8 +77,17 @@ Parameters: no parameters
 Returns: 2D list of ints
 '''
 def createShip():
-    return
-
+    ship = []
+    row = random.randint(1,8)
+    col = random.randint(1,8)
+    axis = random.randint(0,1)
+    if axis == 0: #0 is vertical
+        for i in range(row-1,row+2):
+            ship.append([i,col])
+    else:
+        for i in range(col-1,col+2):
+            ship.append([row,i])
+    return ship
 
 '''
 checkShip(grid, ship)
@@ -274,7 +283,7 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    test.testEmptyGrid()
+    test.testCreateShip()
 
     ## Finally, run the simulation to test it manually ##
     # runSimulation(500, 500)
