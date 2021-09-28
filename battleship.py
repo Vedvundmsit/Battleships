@@ -1,17 +1,19 @@
 """
 Battleship Project
-Name:
-Roll No:
+Name: Vedavyas Vundyala
+Roll No: 
 """
 
+# import battleship_tests as test
 import battleship_tests as test
-
 project = "Battleship" # don't edit this
 
 ### SIMULATION FUNCTIONS ###
 
 from tkinter import *
 import random
+
+import tkinter as tk
 
 EMPTY_UNCLICKED = 1
 SHIP_UNCLICKED = 2
@@ -31,9 +33,9 @@ def makeModel(data):
     data["numBoards"] = 2
     data["numShips"] = 5
     data["computerBoard"] = emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
-    data["userBoard"] = emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
+    data["userBoard"] = test.testGrid() # emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
     data["computerBoard"] = addShips(data["computerBoard"],data["numShips"])
-    return data
+    return 
 
 
 '''
@@ -42,6 +44,8 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
+    drawGrid(data, userCanvas, data["userBoard"], True)
+    drawGrid(data, compCanvas, data["computerBoard"], True)
     return
 
 
@@ -131,6 +135,17 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; 2D list of ints ; boo
 Returns: None
 '''
 def drawGrid(data, canvas, grid, showShips):
+    for i in range(data["No fo rows & cols"]):
+        for j in range(data["No fo rows & cols"]):
+            x1 = data["cellsize"]*j
+            y1 = data["cellsize"]*i
+            x2 = data["cellsize"]+x1
+            y2 = data["cellsize"]+y1
+            fillColor = "blue"
+            if showShips:
+                if grid[i][j] == SHIP_UNCLICKED:
+                    fillColor = "yellow"                
+            canvas.create_rectangle(x1, y1, x2, y2, width=1, fill=fillColor)
     return
 
 
@@ -301,8 +316,11 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    test.testMakeModel()
+    test.week1Tests()
+    
+    
+
 
 
     ## Finally, run the simulation to test it manually ##
-    # runSimulation(500, 500)
+    runSimulation(500, 500)
