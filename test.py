@@ -1,7 +1,16 @@
-def contains(s1, s2): 
-    for i in range(len(s1)): 
-        if s1[i:i+len(s2)] == s2:
-            return True 
-    return False 
+from battleship import emptyGrid, addShips 
+data = {}
 
-print(contains("Hello world", "world"))
+data["rows"] = 10
+data["cols"] = 10
+data["boardSize"] = 500
+data["cellWidth"] = data["boardSize"] / data["cols"]
+data["cellHeight"] = data["boardSize"] / data["rows"]
+data["numBoards"] = 2
+data["numShips"] = 5
+computerBoard = emptyGrid(data["rows"],data["cols"])
+userBoard = emptyGrid(data["rows"],data["cols"])
+computerBoard = addShips(computerBoard,data["numShips"])
+
+values = data.values()
+print(10 in values)
