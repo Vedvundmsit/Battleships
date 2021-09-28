@@ -1,7 +1,7 @@
 """
 Battleship Project
 Name: Vedavyas Vundyala
-Roll No: 
+Roll No: 2021-IIITH-C1-039
 """
 
 # import battleship_tests as test
@@ -33,7 +33,7 @@ def makeModel(data):
     data["numBoards"] = 2
     data["numShips"] = 5
     data["computerBoard"] = emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
-    data["userBoard"] = test.testGrid() # emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
+    data["userBoard"] =  emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
     data["computerBoard"] = addShips(data["computerBoard"],data["numShips"])
     return 
 
@@ -157,8 +157,19 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isVertical(ship):
-    return
+    for i in range(len(ship)):
+        if ship[0][1] != ship[i][1]:
+            return False
 
+    seq = [ ]
+    for i in range(len(ship)):
+        seq.append(ship[i][0])
+    seq.sort()
+
+    for i in range(len(ship)-1):
+        if 1+seq[i] != seq[i+1]:
+            return False
+    return True
 
 '''
 isHorizontal(ship)
@@ -166,7 +177,19 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    return
+    for i in range(len(ship)):
+        if ship[0][0] != ship[i][0]:
+            return False
+
+    seq = [ ]
+    for i in range(len(ship)):
+        seq.append(ship[i][1])
+    seq.sort()
+
+    for i in range(len(ship)-1):
+        if 1+seq[i] != seq[i+1]:
+            return False
+    return True
 
 
 '''
@@ -316,11 +339,11 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    test.week1Tests()
-    
+    test.testIsVertical()
+    test.testIsHorizontal()    
     
 
 
 
     ## Finally, run the simulation to test it manually ##
-    runSimulation(500, 500)
+    # runSimulation(500, 500)
