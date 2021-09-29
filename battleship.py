@@ -35,7 +35,7 @@ def makeModel(data):
     data["computerBoard"] = emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
     data["userBoard"] =  emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
     data["temporaryShip"] = [] # test.testShip()
-    data["numUserShips"] = 0
+    data["numUserShip"] = 0
     data["computerBoard"] = addShips(data["computerBoard"],data["numShips"])
     return 
 
@@ -68,6 +68,7 @@ Returns: None
 '''
 def mousePressed(data, event, board):
     pass
+
 
 #### WEEK 1 ####
 
@@ -244,15 +245,15 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def placeShip(data):
-    if shipIsValid(data["temporaryShip"]):
+    if shipIsValid(data["userBoard"], data["temporaryShip"]):
         ship = data["temporaryShip"]
         board = data["userBoard"]
         for i in range(len(ship)):
             board[ship[i][0]][ship[i][1]] = SHIP_UNCLICKED
         data["numUserShip"] += 1
-        data["userBoard"] = []
+        data["temporaryShip"] = []
     else:
-        data["userBoard"] = []
+        data["temporaryShip"] = []
         print("Ship not in line")
     return
 
@@ -278,7 +279,7 @@ def clickUserBoard(data, row, col):
     userShip.append(userCoordinates)
 
     #check if user passed 3 coordinates for ship
-    if range(len(userShip)) == 3:
+    if len(userShip) == 3:
         placeShip(data)
     
     #checking No of ships added
@@ -390,10 +391,10 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    test.testShipIsValid()
+    test.week2Tests()
     
 
 
 
     ## Finally, run the simulation to test it manually ##
-    #runSimulation(500, 500)
+    runSimulation(500, 500)
