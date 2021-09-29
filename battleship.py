@@ -67,6 +67,13 @@ Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
 def mousePressed(data, event, board):
+    coordinates = getClickedCell(data, event) #returns x,y coordinates
+    row = coordinates[0]
+    col = coordinates[1]
+
+    if board == "user":
+        clickUserBoard(data, row, col)
+
     pass
 
 #### WEEK 1 ####
