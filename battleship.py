@@ -69,7 +69,6 @@ Returns: None
 def mousePressed(data, event, board):
     pass
 
-
 #### WEEK 1 ####
 
 '''
