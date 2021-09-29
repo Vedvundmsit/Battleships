@@ -35,6 +35,7 @@ def makeModel(data):
     data["computerBoard"] = emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
     data["userBoard"] =  emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
     data["temporaryShip"] = [] # test.testShip()
+    data["numUserShips"] = 0
     data["computerBoard"] = addShips(data["computerBoard"],data["numShips"])
     return 
 
@@ -228,7 +229,13 @@ Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
 def shipIsValid(grid, ship):
-    return
+    if len(ship) == 3:
+        if checkShip(grid, ship):
+            if isVertical(ship):
+                return True
+            elif isHorizontal(ship):
+                return True
+    return False
 
 
 '''
@@ -237,6 +244,16 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def placeShip(data):
+    if shipIsValid(data["temporaryShip"]):
+        ship = data["temporaryShip"]
+        board = data["userBoard"]
+        for i in range(len(ship)):
+            board[ship[i][0]][ship[i][1]] = SHIP_UNCLICKED
+        data["numUserShip"] += 1
+        data["userBoard"] = []
+    else:
+        data["userBoard"] = []
+        print("Ship not in line")
     return
 
 
@@ -246,6 +263,28 @@ Parameters: dict mapping strs to values ; int ; int
 Returns: None
 '''
 def clickUserBoard(data, row, col):
+    userShip = data["temporaryShip"]
+    userCoordinates = [row,col]
+    numUserShip = data["numUserShip"]
+
+    #check No of user ships
+    if numUserShip == 5:
+        return
+
+    #check if user coordinates are already present in user ship
+    for i in range(len(userShip)):
+        if userCoordinates == userShip[i]:
+            return
+    userShip.append(userCoordinates)
+
+    #check if user passed 3 coordinates for ship
+    if range(len(userShip)) == 3:
+        placeShip(data)
+    
+    #checking No of ships added
+    if numUserShip == 5:
+        print("Ships are ready to fire")
+
     return
 
 
@@ -351,10 +390,10 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    test.testDrawShip()
+    test.testShipIsValid()
     
 
 
 
     ## Finally, run the simulation to test it manually ##
-    runSimulation(500, 500)
+    #runSimulation(500, 500)
