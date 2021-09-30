@@ -329,9 +329,8 @@ def runGameTurn(data, row, col):
 
     if ((computerBoard[row][col] == EMPTY_UNCLICKED) or (computerBoard[row][col] == SHIP_UNCLICKED)):
         updateBoard(data, computerBoard, row, col, "user")
-
-    compCoordinaes = getComputerGuess(userBoard)
-    updateBoard(data, userBoard, compCoordinaes[0], compCoordinaes[1], "comp")
+        compCoordinaes = getComputerGuess(userBoard)
+        updateBoard(data, userBoard, compCoordinaes[0], compCoordinaes[1], "comp")
 
     return
 
@@ -424,7 +423,7 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    # test.testGetComputerGuess()
+    # test.testIsGameOver()
     
 
 
