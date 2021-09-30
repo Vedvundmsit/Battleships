@@ -38,6 +38,8 @@ def makeModel(data):
     data["numUserShip"] = 0
     data["computerBoard"] = addShips(data["computerBoard"],data["numShips"])
     data["winner"] = None
+    data["maxTurns"] = 50
+    data["currentTurn"] = 0
     return 
 
 
@@ -336,6 +338,10 @@ def runGameTurn(data, row, col):
         updateBoard(data, computerBoard, row, col, "user")
         compCoordinaes = getComputerGuess(userBoard)
         updateBoard(data, userBoard, compCoordinaes[0], compCoordinaes[1], "comp")
+        data["currentTurn"] += 1
+        if data["currentTurn"] == data["maxTurns"]:
+            data["winner"] = "draw"
+
 
     return
 
@@ -378,6 +384,8 @@ def drawGameOver(data, canvas):
         canvas.create_text(250,250, text="Congratulations!!! You won against our AI")
     elif data["winner"] == "comp":
         canvas.create_text(250,250, text="You lost against our AI")
+    elif data["winner"] == "draw":
+        canvas.create_text(250,250, text="You are out of moves and Match is a draw")    
     return
 
 ### SIMULATION FRAMEWORK ###
