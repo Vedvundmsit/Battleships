@@ -62,6 +62,8 @@ Parameters: dict mapping strs to values ; key event object
 Returns: None
 '''
 def keyPressed(data, event):
+    if event.keysym == "Return":
+        makeModel(data)
     pass
 
 
@@ -381,11 +383,11 @@ Returns: None
 '''
 def drawGameOver(data, canvas):
     if data["winner"] == "user":
-        canvas.create_text(250,250, text="Congratulations!!! You won against our AI")
+        canvas.create_text(250,250, text="Congratulations!!! You won against our AI. Press Enter key to play again.")
     elif data["winner"] == "comp":
-        canvas.create_text(250,250, text="You lost against our AI")
+        canvas.create_text(250,250, text="You lost against our AI. Press Enter key to play again.")
     elif data["winner"] == "draw":
-        canvas.create_text(250,250, text="You are out of moves and Match is a draw")    
+        canvas.create_text(250,250, text="You are out of moves and Match is a draw. Press Enter key to play again.")    
     return
 
 ### SIMULATION FRAMEWORK ###
