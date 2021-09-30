@@ -37,6 +37,7 @@ def makeModel(data):
     data["temporaryShip"] = [] # test.testShip()
     data["numUserShip"] = 0
     data["computerBoard"] = addShips(data["computerBoard"],data["numShips"])
+    data["winner"] = None
     return 
 
 
@@ -49,6 +50,7 @@ def makeView(data, userCanvas, compCanvas):
     drawGrid(data, userCanvas, data["userBoard"], True)
     drawGrid(data, compCanvas, data["computerBoard"], False)
     drawShip(data, userCanvas, data["temporaryShip"])
+    drawGameOver(data, userCanvas)
     return
 
 
@@ -71,11 +73,12 @@ def mousePressed(data, event, board):
     row = coordinates[0]
     col = coordinates[1]
 
-    if board == "user":
-        clickUserBoard(data, row, col)
+    if data["winner"] == None:
+        if board == "user":
+            clickUserBoard(data, row, col)
 
-    if ((board == "comp") and (data["numUserShip"] == 5)):
-        runGameTurn(data, row, col)
+        if ((board == "comp") and (data["numUserShip"] == 5)):
+            runGameTurn(data, row, col)
 
 
     pass
@@ -315,6 +318,8 @@ def updateBoard(data, board, row, col, player):
         board[row][col] = SHIP_CLICKED
     elif board[row][col] == EMPTY_UNCLICKED:
         board[row][col] = EMPTY_CLICKED
+    if isGameOver(board):
+        data["winner"] = player
     return
 
 
@@ -356,7 +361,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isGameOver(board):
-    return
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if board[i][j] == SHIP_UNCLICKED:
+                return False
+    return True
 
 
 '''
@@ -365,8 +374,11 @@ Parameters: dict mapping strs to values ; Tkinter canvas
 Returns: None
 '''
 def drawGameOver(data, canvas):
+    if data["winner"] == "user":
+        canvas.create_text(250,250, text="Congratulations!!! You won against our AI")
+    elif data["winner"] == "comp":
+        canvas.create_text(250,250, text="You lost against our AI")
     return
-
 
 ### SIMULATION FRAMEWORK ###
 
