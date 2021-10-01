@@ -38,7 +38,7 @@ def makeModel(data):
     data["numUserShip"] = 0
     data["computerBoard"] = addShips(data["computerBoard"], data["numShips"])
     data["winner"] = None
-    data["maxTurns"] = 50
+    data["maxTurns"] = 150
     data["currentTurn"] = 0
     return
 
@@ -52,7 +52,14 @@ def makeView(data, userCanvas, compCanvas):
     drawGrid(data, userCanvas, data["userBoard"], True)
     drawGrid(data, compCanvas, data["computerBoard"], False)
     drawShip(data, userCanvas, data["temporaryShip"])
-    drawGameOver(data, userCanvas)
+        # To display on both the canvas
+    if data["winner"] == "user":
+        drawGameOver(data, userCanvas)
+    if data["winner"] == "comp":
+        drawGameOver(data, compCanvas)
+    if data["winner"] == "draw":
+        drawGameOver(data, compCanvas)
+        drawGameOver(data, userCanvas)
     return
 
 
@@ -170,6 +177,12 @@ def drawGrid(data, canvas, grid, showShips):
             if grid[i][j] == EMPTY_CLICKED:
                 fillColor = "#F4F2EB"
             canvas.create_rectangle(x1, y1, x2, y2, width=1, fill=fillColor)
+            canvas.create_oval(450, 450, 500, 500, width=1, fill="black")
+            canvas.create_text(475, 468, text="TURN", font=("Helvetica", 7, "bold"), fill="white")
+            canvas.create_text(475, 482, text=data["currentTurn"], font=("Helvetica", 10, "bold"), fill="white")
+
+
+
     return
 
 
@@ -300,7 +313,7 @@ def clickUserBoard(data, row, col):
 
     #check if user passed 3 coordinates for ship
     if len(userShip) == 3:
-        placeShip(data)
+        placeShip(data) 
     #checking No of ships added
     if numUserShip == 5:
         print("Ships are ready to fire")
@@ -381,17 +394,20 @@ Returns: None
 '''
 def drawGameOver(data, canvas):
     if data["winner"] == "user":
+        canvas.create_rectangle(0, 120, 500, 340, width=1, fill="white")
         canvas.create_text(250, 180, text="Victory!!!", font=("Helvetica", 80, "bold"), fill="#104210")
         canvas.create_text(250, 250, text="You won against our AI", font=("Helvetica", 30, "bold"), fill="#0A0A00")
-        canvas.create_text(250, 320, text="Press Enter key to play again.", font=("Helvetica", 20, "bold"), fill="#050533")
+        canvas.create_text(250, 320, text="Press Enter to play again.", font=("Helvetica", 30, "bold"), fill="#050533")
     elif data["winner"] == "comp":
+        canvas.create_rectangle(0, 120, 500, 340, width=1, fill="white")
         canvas.create_text(250, 180, text="Defeated!!!", font=("Helvetica", 60, "bold"), fill="#D01110")
         canvas.create_text(250, 250, text="You lost against our AI", font=("Helvetica", 30, "bold"), fill="#0A0A00")
-        canvas.create_text(250, 320, text="Press Enter key to play again.", font=("Helvetica", 20, "bold"), fill="#050533")
+        canvas.create_text(250, 320, text="Press Enter to play again.", font=("Helvetica", 30, "bold"), fill="#050533")
     elif data["winner"] == "draw":
+        canvas.create_rectangle(0, 120, 500, 340, width=1, fill="white")
         canvas.create_text(250, 180, text="Draw!!!", font=("Helvetica", 80, "bold"), fill="#F6A21E")
         canvas.create_text(250, 250, text="You are out of moves", font=("Helvetica", 30, "bold"), fill="#0A0A00")
-        canvas.create_text(250, 320, text="Press Enter key to play again", font=("Helvetica", 20, "bold"), fill="#050533")
+        canvas.create_text(250, 320, text="Press Enter to play again", font=("Helvetica", 30, "bold"), fill="#050533")
     return
 
 ### SIMULATION FRAMEWORK ###
@@ -428,7 +444,7 @@ def runSimulation(w, h):
 
     compWindow = Toplevel(root)
     compWindow.resizable(width=False, height=False) # prevents resizing window
-    Label(compWindow, text="COMPUTER BOARD - click to make guesses. The computer will guess on your board.").pack()
+    Label(compWindow, text="COMPUTER BOARD - click to make guesses.").pack()
     compCanvas = Canvas(compWindow, width=w, height=h)
     compCanvas.configure(bd=0, highlightthickness=0)
     compCanvas.pack()
