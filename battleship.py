@@ -6,7 +6,7 @@ Roll No: 2021-IIITH-C1-039
 
 # import battleship_tests as test
 import battleship_tests as test
-project = "Battleship" # don't edit this
+PROJECT = "Battleship" # don't edit this
 
 ### SIMULATION FUNCTIONS ###
 
@@ -32,15 +32,15 @@ def makeModel(data):
     data["cellsize"] = data["boardSize"] / data["No fo rows & cols"]
     data["numBoards"] = 2
     data["numShips"] = 5
-    data["computerBoard"] = emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
-    data["userBoard"] =  emptyGrid(data["No fo rows & cols"],data["No fo rows & cols"])
-    data["temporaryShip"] = [] # test.testShip()
+    data["computerBoard"] = emptyGrid(data["No fo rows & cols"], data["No fo rows & cols"])
+    data["userBoard"] = emptyGrid(data["No fo rows & cols"], data["No fo rows & cols"])
+    data["temporaryShip"] = []
     data["numUserShip"] = 0
-    data["computerBoard"] = addShips(data["computerBoard"],data["numShips"])
+    data["computerBoard"] = addShips(data["computerBoard"], data["numShips"])
     data["winner"] = None
     data["maxTurns"] = 50
     data["currentTurn"] = 0
-    return 
+    return
 
 
 '''
@@ -95,14 +95,13 @@ Parameters: int ; int
 Returns: 2D list of ints
 '''
 def emptyGrid(rows, cols):
-    board=[]
+    board = []
     for i in range(rows):
         col = []
         for j in range(cols):
             col.append(EMPTY_UNCLICKED)
         board.append(col)
     return board
-    
 
 '''
 createShip()
@@ -111,15 +110,15 @@ Returns: 2D list of ints
 '''
 def createShip():
     ship = []
-    row = random.randint(1,8)
-    col = random.randint(1,8)
-    axis = random.randint(0,1)
+    row = random.randint(1, 8)
+    col = random.randint(1, 8)
+    axis = random.randint(0, 1)
     if axis == 0: #0 is vertical
-        for i in range(row-1,row+2):
-            ship.append([i,col])
+        for i in range(row-1, row+2):
+            ship.append([i, col])
     else:
-        for i in range(col-1,col+2):
-            ship.append([row,i])
+        for i in range(col-1, col+2):
+            ship.append([row, i])
     return ship
 
 '''
@@ -139,14 +138,14 @@ Parameters: 2D list of ints ; int
 Returns: 2D list of ints
 '''
 def addShips(grid, numShips):
-    board=grid
-    count=0
+    board = grid
+    count = 0
     while count < numShips:
-        ship=createShip()
+        ship = createShip()
         if checkShip(board, ship) == True:
             for i in range(len(ship)):
                 board[ship[i][0]][ship[i][1]] = SHIP_UNCLICKED
-            count +=1
+            count += 1
     return board
 
 
@@ -162,14 +161,14 @@ def drawGrid(data, canvas, grid, showShips):
             y1 = data["cellsize"]*i
             x2 = data["cellsize"]+x1
             y2 = data["cellsize"]+y1
-            fillColor = "blue"
+            fillColor = "#3F5E98"
             if showShips:
                 if grid[i][j] == SHIP_UNCLICKED:
-                    fillColor = "yellow"                
+                    fillColor = "#FFDB15"
             if grid[i][j] == SHIP_CLICKED:
-                fillColor = "red"                
+                fillColor = "#E4021B"
             if grid[i][j] == EMPTY_CLICKED:
-                fillColor = "white"                
+                fillColor = "#F4F2EB"
             canvas.create_rectangle(x1, y1, x2, y2, width=1, fill=fillColor)
     return
 
@@ -186,7 +185,7 @@ def isVertical(ship):
         if ship[0][1] != ship[i][1]:
             return False
 
-    seq = [ ]
+    seq = []
     for i in range(len(ship)):
         seq.append(ship[i][0])
     seq.sort()
@@ -206,7 +205,7 @@ def isHorizontal(ship):
         if ship[0][0] != ship[i][0]:
             return False
 
-    seq = [ ]
+    seq = []
     for i in range(len(ship)):
         seq.append(ship[i][1])
     seq.sort()
@@ -225,7 +224,7 @@ Returns: list of ints
 def getClickedCell(data, event):
     x = int(event.y/data["cellsize"])
     y = int(event.x/data["cellsize"])
-    return [x,y]
+    return [x, y]
 
 
 '''
@@ -241,7 +240,7 @@ def drawShip(data, canvas, ship):
         y1 = data["cellsize"]*y
         x2 = data["cellsize"]+x1
         y2 = data["cellsize"]+y1
-        canvas.create_rectangle(x1, y1, x2, y2, width=1, fill="white")
+        canvas.create_rectangle(x1, y1, x2, y2, width=1, fill="#F4F2EB")
     return
 
 
@@ -286,7 +285,7 @@ Returns: None
 '''
 def clickUserBoard(data, row, col):
     userShip = data["temporaryShip"]
-    userCoordinates = [row,col]
+    userCoordinates = [row, col]
     numUserShip = data["numUserShip"]
 
     #check No of user ships
@@ -302,7 +301,6 @@ def clickUserBoard(data, row, col):
     #check if user passed 3 coordinates for ship
     if len(userShip) == 3:
         placeShip(data)
-    
     #checking No of ships added
     if numUserShip == 5:
         print("Ships are ready to fire")
@@ -355,12 +353,12 @@ Returns: list of ints
 '''
 def getComputerGuess(board):
     i = 0
-    while i<1:
-        row = random.randint(0,9)
-        col = random.randint(0,9)
+    while i < 1:
+        row = random.randint(0, 9)
+        col = random.randint(0, 9)
         if ((board[row][col] == EMPTY_UNCLICKED) or (board[row][col] == SHIP_UNCLICKED)):
             i += 1
-            return [row,col]
+            return [row, col]
 
 
 '''
@@ -383,11 +381,17 @@ Returns: None
 '''
 def drawGameOver(data, canvas):
     if data["winner"] == "user":
-        canvas.create_text(250,250, text="Congratulations!!! You won against our AI. Press Enter key to play again.")
+        canvas.create_text(250, 180, text="Victory!!!", font=("Helvetica", 80, "bold"), fill="#104210")
+        canvas.create_text(250, 250, text="You won against our AI", font=("Helvetica", 30, "bold"), fill="#0A0A00")
+        canvas.create_text(250, 320, text="Press Enter key to play again.", font=("Helvetica", 20, "bold"), fill="#050533")
     elif data["winner"] == "comp":
-        canvas.create_text(250,250, text="You lost against our AI. Press Enter key to play again.")
+        canvas.create_text(250, 180, text="Defeated!!!", font=("Helvetica", 60, "bold"), fill="#D01110")
+        canvas.create_text(250, 250, text="You lost against our AI", font=("Helvetica", 30, "bold"), fill="#0A0A00")
+        canvas.create_text(250, 320, text="Press Enter key to play again.", font=("Helvetica", 20, "bold"), fill="#050533")
     elif data["winner"] == "draw":
-        canvas.create_text(250,250, text="You are out of moves and Match is a draw. Press Enter key to play again.")    
+        canvas.create_text(250, 180, text="Draw!!!", font=("Helvetica", 80, "bold"), fill="#F6A21E")
+        canvas.create_text(250, 250, text="You are out of moves", font=("Helvetica", 30, "bold"), fill="#0A0A00")
+        canvas.create_text(250, 320, text="Press Enter key to play again", font=("Helvetica", 20, "bold"), fill="#050533")
     return
 
 ### SIMULATION FRAMEWORK ###
@@ -410,31 +414,31 @@ def mouseEventHandler(data, userCanvas, compCanvas, event, board):
     updateView(data, userCanvas, compCanvas)
 
 def runSimulation(w, h):
-    data = { }
+    data = {}
     makeModel(data)
 
     root = Tk()
     root.resizable(width=False, height=False) # prevents resizing window
 
     # We need two canvases - one for the user, one for the computer
-    Label(root, text = "USER BOARD - click cells to place ships on your board.").pack()
+    Label(root, text="USER BOARD - click cells to place ships on your board.").pack()
     userCanvas = Canvas(root, width=w, height=h)
     userCanvas.configure(bd=0, highlightthickness=0)
     userCanvas.pack()
 
     compWindow = Toplevel(root)
     compWindow.resizable(width=False, height=False) # prevents resizing window
-    Label(compWindow, text = "COMPUTER BOARD - click to make guesses. The computer will guess on your board.").pack()
+    Label(compWindow, text="COMPUTER BOARD - click to make guesses. The computer will guess on your board.").pack()
     compCanvas = Canvas(compWindow, width=w, height=h)
     compCanvas.configure(bd=0, highlightthickness=0)
     compCanvas.pack()
 
     makeView(data, userCanvas, compCanvas)
 
-    root.bind("<Key>", lambda event : keyEventHandler(data, userCanvas, compCanvas, event))
-    compWindow.bind("<Key>", lambda event : keyEventHandler(data, userCanvas, compCanvas, event))
-    userCanvas.bind("<Button-1>", lambda event : mouseEventHandler(data, userCanvas, compCanvas, event, "user"))
-    compCanvas.bind("<Button-1>", lambda event : mouseEventHandler(data, userCanvas, compCanvas, event, "comp"))
+    root.bind("<Key>", lambda event: keyEventHandler(data, userCanvas, compCanvas, event))
+    compWindow.bind("<Key>", lambda event: keyEventHandler(data, userCanvas, compCanvas, event))
+    userCanvas.bind("<Button-1>", lambda event: mouseEventHandler(data, userCanvas, compCanvas, event, "user"))
+    compCanvas.bind("<Button-1>", lambda event: mouseEventHandler(data, userCanvas, compCanvas, event, "comp"))
 
     updateView(data, userCanvas, compCanvas)
 
@@ -445,10 +449,5 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    # test.testIsGameOver()
-    
-
-
-
     ## Finally, run the simulation to test it manually ##
     runSimulation(500, 500)
