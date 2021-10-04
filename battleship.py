@@ -38,7 +38,7 @@ def makeModel(data):
     data["numUserShip"] = 0
     data["computerBoard"] = addShips(data["computerBoard"], data["numShips"])
     data["winner"] = None
-    data["maxTurns"] = 150
+    data["maxTurns"] = 10
     data["currentTurn"] = 0
     return
 
